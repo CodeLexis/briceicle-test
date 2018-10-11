@@ -37,9 +37,49 @@ class Question(BaseModel):
 
     body = db.Column(db.String(128))
 
+    @property
+    def overall_positive_answer_rate(self):
+        positive_answers = [
+            answer for answer in self.answers if answer.body == 'YES']
+
+        try:
+            return '%.2f%% YES' % (
+                    len(positive_answers) / len(self.answers)
+                    * 100)
+        except:
+            return 'N/A'
+
+    @property
+    def unit_positive_answers(self):
+        unit_positive_answers = {}
+
+        for unit in Unit.query.all():
+            positive_answers = [
+                answer for answer in self.answers if
+                answer.body == 'YES' and answer.unit_id == unit.id]
+
+            all_unit_answers = [
+                answer for answer in self.answers if answer.unit_id == unit.id]
+
+            print(positive_answers, all_unit_answers)
+
+            try:
+                unit_positive_answers[unit.name] = '%.2f%% YES' % (
+                    len(positive_answers) / len(all_unit_answers)
+                 * 100)
+
+            except ZeroDivisionError:
+                unit_positive_answers[unit.name] = 'N/A'
+
+        return unit_positive_answers
+
     def as_json(self):
         return {
-            'body': self.body
+            'body': self.body,
+            'answers': {
+                'overall': self.overall_positive_answer_rate,
+                **self.unit_positive_answers
+            }
         }
 
 

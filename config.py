@@ -6,6 +6,7 @@ from app.constants import APP_NAME
 class DevelopmentConfig(object):
     DEBUG = True
 
+    SECRET_KEY = b'SUPER_SECRET'
     SERVER_NAME = 'localhost:5008'
 
     SQLALCHEMY_DATABASE_URI = (

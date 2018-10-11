@@ -7,7 +7,9 @@ web_blueprint = Blueprint(__name__, 'web_blueprint', url_prefix='')
 
 
 mappings = [
+    ('/', QuestionsRoute, 'questions_'),
     ('/questions', QuestionsRoute, 'questions'),
+
     ('/results', ResultsRoute, 'results'),
 ]
 

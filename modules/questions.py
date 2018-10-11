@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, redirect, session, url_for
 from flask.views import MethodView
 
 from app.models import Answer, Question, Unit
@@ -6,6 +6,9 @@ from app.models import Answer, Question, Unit
 
 class QuestionsRoute(MethodView):
     def get(self):
+        if session.get('taken'):
+            return redirect(url_for('blueprints.web.results'))
+
         return render_template(
             'questions.html',
             units=[unit.as_json() for unit in Unit.query.all()],
@@ -15,15 +18,9 @@ class QuestionsRoute(MethodView):
     def post(self):
         data = request.form
 
-        unit = None
+        unit = Unit.get(name=data.get('unit'))
 
         yes_count = 0
-
-        for question, answer in data.items():
-            print(question)
-            if question == 'unit':
-                unit = Unit(name=answer)
-                unit.save()
 
         for question, answer in data.items():
             question = Question.get(body=question)
@@ -37,4 +34,6 @@ class QuestionsRoute(MethodView):
                 if answer == 'YES':
                     yes_count += 1
 
-        return 'You scored {}/12'.format(yes_count)
+        session['taken'] = True
+
+        return redirect(url_for('blueprints.web.results', score=yes_count))
