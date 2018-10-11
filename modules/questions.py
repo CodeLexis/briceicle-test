@@ -35,5 +35,6 @@ class QuestionsRoute(MethodView):
                     yes_count += 1
 
         session['taken'] = True
+        session['score'] = yes_count
 
         return redirect(url_for('blueprints.web.results', score=yes_count))
