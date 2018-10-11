@@ -18,6 +18,7 @@ class DevelopmentConfig(object):
 
 class ProductionConfig(object):
 
+    SECRET_KEY = b'SUPER_SECRET'
     SQLALCHEMY_DATABASE_URI = (
         'postgres://pqvstpivxijtyd:c04893d87de8ebb015d532e01f2206466dd84b81be56'
         '7cc528a1965e4709f2e8@ec2-174-129-35-61.compute-1.amazonaws.com:5432/d1'
