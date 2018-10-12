@@ -7,7 +7,7 @@ from app.models import Answer, Question, Unit
 
 class ResultsRoute(MethodView):
     def get(self):
-        score = request.args.get('score') or session.get('score') or 12
+        score = request.args.get('score') or session.get('score')
 
         questions = [question.as_json() for question in Question.query.all()]
 

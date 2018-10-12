@@ -36,7 +36,13 @@
 					Results
 				</span>
 
-				<h3>Your Score: {{ score }}/12</h3>
+				{% if score %}
+					<h3>Your Score: {{ score }}/12</h3>
+				{% else %}
+				<h4>You have not taken this <a
+						href={{url_for('blueprints.web.questions')}}>test</a>
+					yet.</h4>
+				{% endif %}
 				<br><br>
 
 				{% for question in questions %}
