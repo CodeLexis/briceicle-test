@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_mail import Mail
 from flask_sqlalchemy import SQLAlchemy
 

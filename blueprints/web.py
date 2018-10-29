@@ -1,9 +1,14 @@
-from flask import Blueprint
+from flask import Blueprint, request
 
 from modules import QuestionsRoute, ResultsRoute
 
 
 web_blueprint = Blueprint(__name__, 'web_blueprint', url_prefix='')
+
+
+@web_blueprint.route('/echo-headers')
+def echo_headers():
+    return str(request.headers)
 
 
 mappings = [
